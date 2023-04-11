@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 const crypto = require('crypto')
 
-// const db = mysql.createConnection({host: "localhost", user: "root", password:"root", database: "api_biblio"})
+// const db = mysql.createConnection({host: "db4free.net", user: "dbrappeltout", password:"dbrappeltout", database: "dbrappeltout"})
 const db = mysql.createConnection({host: "localhost", user: "admin", password:"Azerty123*", database: "rappeltout"})
 
 db.connect(function(err) {   
@@ -137,9 +137,6 @@ function addOneUser(username,email,motdepasse) {
     db.query(`INSERT INTO user(username,email,password) VALUES ('${username}','${email}','${hash}')`);
 }
 
-function addOneCategorie(label) {
-    db.query(`INSERT INTO categories(label) VALUES ('${label}')`);
-}
 
 function addMember(username,id) {
     db.query(`SELECT id FROM user WHERE username = '${username}'`, (err, result) => {
@@ -148,100 +145,17 @@ function addMember(username,id) {
       });
 }
 
-function addOnePage(nom,url,id) {
-    db.query(`INSERT INTO page(title,url,id_livre) VALUES ('${nom}','${url}',${id})`);
-}
-
-function UpdateOneBook(id, titre, auteur, annee) {
-    db.query(`UPDATE livre SET titre = '${titre}', auteur = '${auteur}', annee = ${annee} WHERE id = ${id}`);
-}
-
 function updateProfile(colonne, id, data) {
     db.query(`UPDATE user SET ${colonne} = '${data}' WHERE id = ${id}`);
-}
-
-function updateLivre(colonne, id, data) {
-    db.query(`UPDATE livre SET ${colonne} = '${data}' WHERE id = ${id}`);
-}
-
-function UpdateOneCategorie(id, label) {
-    db.query(`UPDATE categories SET label = '${label}' WHERE id = ${id}`);
-}
-
-function RemoveOneBook(id) {
-    db.query(`DELETE FROM livre WHERE id = ${id}`);
 }
 
 function deleteOneByTableAndId(table, id) {
     db.query(`DELETE FROM ${table} WHERE id = ${id}`);
 }
 
-function RemoveOneCategories(id) {
-    db.query(`DELETE FROM categories WHERE id = ${id}`);
-}
-
 function login(email, password, callback) {
     db.query(`SELECT * FROM user WHERE email = '${email}' AND password = '${password}'`, callback);
 }
-
-function getCategorie(idlivre, req, res){
-    getOne('livre',idlivre, (error, results, fields) => {
-        if (error) throw error;
-        const obj = JSON.parse((JSON.stringify(results[0])))
-        const id = obj.id_categorie
-        getOne('categories',id, (error, results, fields) => {
-            if (error) throw error;
-            const obj = JSON.parse((JSON.stringify(results[0])))
-            const label = obj.label
-            const data = {
-                "label": label
-              };
-            const jsonData = JSON.parse(JSON.stringify(data));              
-            res.status(200).json(jsonData)
-        });
-    });
-}
-
-function getPages(idlivre, req, res){
-    getOneByColonneValue('page','id_livre', idlivre, (error, results, fields) => {
-        if (error) throw error;
-        const obj = JSON.parse((JSON.stringify(results)))
-        res.status(200).json(obj)     
-    });
-}
-
-function getNomAuteur(idlivre, req, res){
-    getOne('livre',idlivre, (error, results, fields) => {
-        if (error) throw error;
-        const obj = JSON.parse((JSON.stringify(results[0])))
-        const id = obj.auteur
-        getOne('user',id, (error, results, fields) => {
-            if (error) throw error;
-            const obj = JSON.parse((JSON.stringify(results[0])))
-            const prenom = obj.prenom
-            const nom = obj.nom
-            const data = {
-                "prenom": prenom,
-                "nom": nom,
-              };
-            const jsonData = JSON.parse(JSON.stringify(data));              
-            res.status(200).json(jsonData)
-        });
-    });
-}
-
-function getIdAuteur(idlivre, req, res){
-    getOne('livre',idlivre, (error, results, fields) => {
-        if (error) throw error;
-        const obj = JSON.parse((JSON.stringify(results[0])))
-        const id = obj.auteur
-        const data = {
-            "id": id
-        }
-        const jsonData = JSON.parse(JSON.stringify(data));              
-        res.status(200).json(jsonData)
-    });
- }
 
 function returnAll(table, req, res){
     getAll(table, (error, results, fields) => {
@@ -301,22 +215,11 @@ module.exports = {
     getProjetByUserId,
     getProjetParticipationByUserId,
     addOneUser,
-    addOnePage,
     addOneProjet,
-    addOneCategorie,
-    UpdateOneBook,
     updateProfile,
-    UpdateOneCategorie,
-    RemoveOneBook,
-    RemoveOneCategories,
     returnAll,
     returnOne,
-    updateLivre,
     getOneProfile,
-    getCategorie,
     exec_login,
-    getPages,
-    getIdAuteur,
-    getNomAuteur,
     deleteOneByTableAndId
 };

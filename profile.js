@@ -30,25 +30,6 @@ function profile(app,helpers){
         helpers.deleteOneByTableAndId('user',id)
     })
 
-    app.post('/profile/edit/prenom/:id', (req,res) => {
-        const id = parseInt(req.params.id)
-        prenom = req.body.prenom
-        helpers.updateProfile('prenom',id, prenom)
-    })
-
-    app.post('/profile/edit/role/:id', (req,res) => {
-        const id = parseInt(req.params.id)
-        role = req.body.role
-        helpers.updateProfile('role',id, role)
-    })
-
-
-    app.post('/profile/edit/nom/:id', (req,res) => {
-        const id = parseInt(req.params.id)
-        nom = req.body.nom
-        helpers.updateProfile('nom',id, nom)
-    })
-
     app.post('/profile/edit/email/:id', (req,res) => {
         const id = parseInt(req.params.id)
         email = req.body.email

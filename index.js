@@ -3,8 +3,6 @@ const helpers = require('./helper.js');
 const route_livre = require('./projet.js');
 const route_login = require('./login.js');
 const route_profile = require('./profile.js');
-const route_categories = require('./categorie.js');
-
 
 const cors=require("cors");
 const corsOptions ={
@@ -25,6 +23,5 @@ app.listen(7777, '0.0.0.0', ()=>{
 })
 
 route_livre.projet(app,helpers)
-route_categories.categorie(app,helpers)
 route_login.login(app,helpers)
 route_profile.profile(app,helpers)

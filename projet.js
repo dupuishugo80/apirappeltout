@@ -61,19 +61,6 @@ function projet(app,helpers){
         helpers.addOnePage(nom,url,id)
         helpers.returnAll('page',req,res)
     })
-
-    app.post('/livre/edit/title/:id', (req,res) => {
-        const id = parseInt(req.params.id)
-        title = req.body.title
-        helpers.updateLivre('title',id, title)
-    })
-
-
-    app.delete('/livre/:id', (req,res) => {
-        const id = parseInt(req.params.id)
-        helpers.RemoveOneBook(id)
-        helpers.returnAll('livre',req,res)
-    })
 }
 
 module.exports = {
