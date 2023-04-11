@@ -2,7 +2,7 @@ const mysql = require('mysql')
 const crypto = require('crypto')
 
 // const db = mysql.createConnection({host: "localhost", user: "root", password:"root", database: "api_biblio"})
-const db = mysql.createConnection({host: "db4free.net", user: "dbrappeltout", password:"dbrappeltout", database: "dbrappeltout"})
+const db = mysql.createConnection({host: "localhost", user: "admin", password:"Azerty123*", database: "rappeltout"})
 
 db.connect(function(err) {   
     if (err){
